@@ -1,0 +1,363 @@
+.exp-container {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .exp-container { padding: 3rem 1.5rem; }
+}
+
+/* Header */
+.exp-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.exp-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+}
+
+.exp-title {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.exp-desc {
+  color: var(--text-muted);
+  font-size: 1.125rem;
+  max-width: 42rem;
+  line-height: 1.625;
+}
+
+/* Timeline Base */
+.timeline-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 1.5rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--primary) 0%, var(--secondary) 100%);
+  opacity: 0.2;
+  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .timeline-line { left: 3rem; }
+}
+
+/* Node layout */
+.timeline-node {
+  position: relative;
+  padding-left: 4rem;
+}
+
+@media (min-width: 768px) {
+  .timeline-node { padding-left: 7rem; }
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 1rem;
+  top: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 4px solid var(--bg-color); /* Matches page bg so it cuts into line */
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .timeline-dot { left: 2.5rem; }
+}
+
+.active-dot {
+  background-color: var(--primary);
+  box-shadow: 0 0 15px rgba(17, 212, 212, 0.4);
+}
+
+.inactive-dot {
+  background-color: var(--border-color);
+}
+
+/* Card layout */
+.timeline-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  transition: box-shadow 0.2s;
+}
+
+.timeline-node:hover .timeline-card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+  .card-header {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.company-logo-wrapper {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.5rem;
+  background-color: rgba(17, 212, 212, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.inactive-wrapper {
+  background-color: var(--bg-color);
+}
+
+.company-logo {
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: var(--primary);
+  letter-spacing: -1px;
+}
+
+.inactive-wrapper .company-logo { color: var(--text-color); }
+
+.role-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.company-name {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.role-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .role-meta { align-items: flex-end; }
+}
+
+.role-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.active-badge {
+  background-color: rgba(17, 212, 212, 0.1);
+  color: var(--primary);
+}
+
+.inactive-badge {
+  background-color: var(--bg-color);
+  color: var(--text-muted);
+}
+
+.role-location {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.role-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.role-summary {
+  color: var(--text-muted);
+  line-height: 1.625;
+}
+
+.role-highlights-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .role-highlights-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.role-highlights-grid li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.shrink-0 { flex-shrink: 0; }
+.mt-1 { margin-top: 0.25rem; }
+
+/* Inactive specific */
+.tech-stack-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tech-pill {
+  padding: 0.25rem 0.5rem;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.role-highlights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.role-highlights-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* Highlights Section */
+.highlights-section {
+  margin-top: 5rem;
+}
+
+.highlights-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.highlights-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .highlights-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.highlight-card {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: rgba(17, 212, 212, 0.05); /* primary/5 */
+  border: 1px solid rgba(17, 212, 212, 0.1); /* primary/10 */
+}
+
+.highlight-card-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.highlight-card-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* CTA */
+.exp-cta {
+  margin-top: 5rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.exp-cta-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.exp-cta-desc {
+  color: var(--text-muted);
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+.exp-cta-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-secondary-white {
+  padding: 0 2rem;
+  height: 3rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s;
+}
+
+.btn-secondary-white:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
