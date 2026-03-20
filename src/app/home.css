@@ -3,7 +3,7 @@
 /* Hero Section */
 .home-hero-container {
   padding: 2rem 1.5rem;
-  max-width: 80rem;
+  max-width: 100%;
   margin: 0 auto;
   min-height: 50vh;
   display: flex;
@@ -113,7 +113,7 @@
 
 .skills-container {
   padding: 0 1.5rem;
-  max-width: 80rem;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -132,7 +132,7 @@
   color: var(--primary);
   font-weight: 700;
   letter-spacing: 0.1em;
-  font-size: 0.7rem;
+  font-size: 0.55rem;
   text-transform: uppercase;
   margin-bottom: 0.25rem;
 }
@@ -209,7 +209,7 @@
 /* Projects Section */
 .projects-section {
   padding: 2rem 1.5rem;
-  max-width: 80rem;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -367,7 +367,7 @@
 }
 
 .cta-box {
-  max-width: 64rem;
+  max-width: 100%;
   margin: 0 auto;
   background-color: var(--bg-surface);
   border-radius: 1rem;

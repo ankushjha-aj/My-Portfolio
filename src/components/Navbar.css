@@ -16,7 +16,7 @@
 }
 
 .nav-container {
-  max-width: 80rem;
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -86,7 +86,7 @@
   height: 40px;
   border-radius: 50%;
   border: 2px solid rgba(17, 212, 212, 0.2);
-  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDAGHGGVbsw1C0m3CER0LFdPVGTxrN7OvmnLlV5QkD2AirQng5b5esmXax2rb7vmRhXyyE8rBQXPa4o_xSCdieuSeaQ1aQXPVz9ZMlfEcxM_1duOxjupxTiPeVDbt_Dd8fUcEwzj_mXW2J---C_ULAsKxBQ2LuH_UqFjrSofe0g6zCVru28SIx-vfDXKHtPC1BFNx22Dc6BkaZZJF9iKChFW4qT9nBIIF3aG6ujObRheku4Z3a8xH2hxGlU-yWbsv57H9suRPpMMw');
+  background-image: url('/profile.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

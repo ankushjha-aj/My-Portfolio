@@ -1,5 +1,5 @@
 .projects-page-container {
-  max-width: 80rem; /* max-w-7xl */
+  max-width: 100%; /* max-w-7xl */
   margin: 0 auto;
   display: flex;
   flex-direction: column;

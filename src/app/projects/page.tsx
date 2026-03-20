@@ -1,188 +1,126 @@
-import Link from 'next/link';
-import { ExternalLink, Github, MonitorPlay, HardDrive, Code2, AlertCircle } from 'lucide-react';
-import './projects.css';
+import Link from "next/link";
+import { FolderGit2, MoveRight, Layers, Github, ExternalLink } from "lucide-react";
 
-// 1. Fetch GitHub data server-side
-async function getGithubRepos() {
-  try {
-    const res = await fetch('https://api.github.com/users/ankushjha-aj/repos?sort=updated&per_page=30', {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
-    
-    if (!res.ok) {
-      throw new Error('Failed to fetch from GitHub');
-    }
-    
-    return await res.json();
-  } catch (error) {
-    console.error("GitHub API Error:", error);
-    return null;
-  }
-}
+const CV_PROJECTS = [
+  {
+    title: "BINGE-PLUS",
+    desc: "Movie Streaming Website (In Development). Full-stack streaming platform with cloud-native infrastructure, encrypted storage, and automated deployment pipelines.",
+    tech: ["Node.js", "MongoAtlas", "GCP", "Terraform", "CI/CD", "Ansible", "KMS", "Docker", "Cloud Storage"],
+    github: "https://github.com/binge-plus/BINGE-PLUS",
+    color: "from-violet-600 to-primary",
+  },
+  {
+    title: "Plakar Dashboard",
+    desc: "A custom GUI for Plakar — manage encrypted backups visually. Features backup management, restore operations, and real-time monitoring through an intuitive web interface.",
+    tech: ["Plakar CLI", "Node.js", "SonarQube Cloud"],
+    github: "https://github.com/ankushjha-aj/plakar-dashboard",
+    color: "from-emerald-500 to-teal-600",
+  },
+  {
+    title: "Indian Army Medical Database",
+    desc: "Received a Certificate of Appreciation from the Indian Army for developing a secure web application for Medical Record Management. Handles sensitive patient data with encryption.",
+    tech: ["Secure Web App", "Medical Records", "Database", "Encryption"],
+    github: "#",
+    color: "from-amber-500 to-orange-600",
+  },
+];
 
-export default async function Projects() {
-  const allRepos = await getGithubRepos();
+const GITHUB_REPOS = [
+  { name: "Docker-to-K8", desc: "Migration guide from Docker Compose to Kubernetes manifests", url: "https://github.com/ankushjha-aj/Docker-to-K8" },
+  { name: "Automation_Scripts_CLOUD_Env", desc: "Automation scripts for cloud environments (AWS/GCP)", url: "https://github.com/ankushjha-aj/Automation_Scripts_CLOUD_Env" },
+  { name: "terraform-worflow-makefile", desc: "Terraform workflow automation with Makefile integration", url: "https://github.com/ankushjha-aj/terraform-worflow-makefile" },
+  { name: "AWS-ECS_SETUP", desc: "Complete AWS ECS cluster setup with Terraform & CI/CD", url: "https://github.com/ankushjha-aj/AWS-ECS_SETUP" },
+  { name: "devops-cheatsheet", desc: "Comprehensive DevOps commands and configuration cheatsheet", url: "https://github.com/ankushjha-aj/devops-cheatsheet" },
+  { name: "AWS-SECRET-CODE-DEPLOY", desc: "AWS Secrets Manager integration for secure deployments", url: "https://github.com/ankushjha-aj/AWS-SECRET-CODE-DEPLOY" },
+  { name: "Nagios-Setup", desc: "Nagios monitoring server setup and configuration guide", url: "https://github.com/ankushjha-aj/Nagios-Setup" },
+  { name: "k8-actions", desc: "Kubernetes deployment automation with GitHub Actions", url: "https://github.com/ankushjha-aj/k8-actions" },
+];
 
-  // 2. Filter logic
-  // Hardcoded featured data to ensure they always show perfectly
-  const featuredProjects = [
-    {
-      id: "binge-plus",
-      title: "Binge+ Platform",
-      category: "Live Streaming Architecture",
-      year: "2024",
-      description: "A highly scalable movie streaming website built with robust cloud infrastructure. Deployed on Google Cloud Platform, utilizing Docker for containerization and Terraform for infrastructure as code, ensuring high availability and seamless content delivery.",
-      technologies: ["GCP", "Docker", "Terraform", "Node.js"],
-      icon: <MonitorPlay size={40} className="text-secondary" />,
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200',
-      repoLink: "https://github.com/ankushjha-aj" // Fallback link
-    },
-    {
-      id: "plakar-ui",
-      title: "Plakar UI Dashboard",
-      category: "CLI GUI Integration",
-      year: "2023",
-      description: "A custom Graphical User Interface for the Plakar CLI backup tool. Built to visually manage encrypted, versioned backups. This project bridges the gap between complex command-line operations and user-friendly visual state management.",
-      technologies: ["React", "Node.js", "CLI Integration"],
-      icon: <HardDrive size={40} className="text-primary" />,
-      image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=1200',
-      repoLink: "https://github.com/ankushjha-aj"
-    }
-  ];
-
-  // Exclude featured repos by name from the carousel (if they exist under these names)
-  // Also EXPLICITLY filter out 'Army' or 'Medical' related strings per user instruction.
-  let carouselRepos = [];
-  if (allRepos && Array.isArray(allRepos)) {
-    carouselRepos = allRepos
-      .filter((repo: any) => 
-        !repo.name.toLowerCase().includes('binge') && 
-        !repo.name.toLowerCase().includes('plakar') &&
-        !repo.name.toLowerCase().includes('army') &&
-        !repo.name.toLowerCase().includes('medical')
-      )
-      .slice(0, 12); // Grab up to 12
-  }
-
+export default function Projects() {
   return (
-    <div className="projects-page-container section-padding">
-      <div className="projects-page-header animate-slide-up">
-        <h1 className="projects-page-title">
-          Engineering <span className="text-primary">Portfolio</span>
-        </h1>
-        <p className="projects-page-subtitle">
-          A showcase of architectural designs, infrastructure deployments, and automation tools. This data is actively fetched from my GitHub profile.
-        </p>
-      </div>
+    <div className="w-full relative z-10">
+      {/* Header */}
+      <section className="bg-slate-900 dark:bg-slate-950 text-white py-10 border-b border-primary/20 w-full">
+        <div className="w-full px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-3 tracking-tight">
+            Engineering <span className="text-primary">Portfolio</span>
+          </h1>
+          <p className="text-sm text-slate-400 max-w-xl mx-auto leading-relaxed">
+            Real-world projects in cloud infrastructure, CI/CD automation, and secure application architecture.
+          </p>
+        </div>
+      </section>
 
-      {/* 3. Featured Projects (Top 2) */}
-      <h2 className="section-title mb-8 reveal">Featured Deployments</h2>
-      <div className="projects-list mb-24">
-        {featuredProjects.map((project, index) => (
-          <div key={project.id} className={`project-showcase-row reveal ${index % 2 !== 0 ? 'row-reverse' : ''}`}>
-            
-            <div className="project-visual-col">
-              <div className="project-visual-wrapper">
-                <div className="project-visual-glow"></div>
-                <div 
-                  className="project-visual-bg"
-                  style={{ backgroundImage: `url("${project.image}")` }}
-                ></div>
-                <div className="project-status-badge outline-primary">
-                  Featured
+      {/* Main Projects (from CV) */}
+      <section className="py-10 bg-white/80 dark:bg-slate-900/80 w-full">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6">Featured Projects</h2>
+          <div className="grid md:grid-cols-3 gap-5">
+            {CV_PROJECTS.map((project) => (
+              <div key={project.title} className="group rounded-custom overflow-hidden bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:border-primary/50 transition-all">
+                <div className={`h-28 bg-gradient-to-br ${project.color} flex items-center justify-center`}>
+                  <h3 className="text-white text-lg font-extrabold tracking-tight text-center px-4">{project.title}</h3>
                 </div>
-              </div>
-            </div>
-
-            <div className="project-details-col">
-              <div className="project-headline">
-                <div className="project-meta-top">
-                  {project.icon}
-                  <div className="project-meta-tags">
-                    <span className="tag-category">{project.category}</span>
-                    <span className="tag-year text-secondary">{project.year}</span>
+                <div className="p-5">
+                  <div className="flex gap-1.5 mb-3 flex-wrap">
+                    {project.tech.slice(0, 4).map((t) => (
+                      <span key={t} className="flex items-center gap-1 bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                        <Layers size={10} /> {t}
+                      </span>
+                    ))}
+                    {project.tech.length > 4 && (
+                      <span className="text-[10px] text-slate-400">+{project.tech.length - 4}</span>
+                    )}
                   </div>
+                  <p className="text-slate-600 dark:text-slate-400 text-xs mb-4 leading-relaxed line-clamp-3">{project.desc}</p>
+                  {project.github !== "#" ? (
+                    <Link href={project.github} target="_blank" className="inline-flex items-center gap-1 text-primary text-xs font-bold hover:gap-2 transition-all">
+                      View on GitHub <MoveRight size={14} />
+                    </Link>
+                  ) : (
+                    <span className="text-xs text-slate-400 italic">Private / Classified</span>
+                  )}
                 </div>
-                <h2 className="project-title-large">{project.title}</h2>
               </div>
-              
-              <p className="project-description-full">
-                {project.description}
-              </p>
-              
-              <div className="project-tech-stack-list">
-                {project.technologies.map(tech => (
-                  <span key={tech} className="tech-chip">{tech}</span>
-                ))}
-              </div>
-
-              <div className="project-links">
-                <a href={project.repoLink} className="btn-secondary flex-center gap-2" target="_blank" rel="noopener noreferrer">
-                  <span>Source Code</span>
-                  <Github size={18} />
-                </a>
-              </div>
-            </div>
-
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      </section>
 
-      {/* 4. Horizontal GitHub Integration Carousel */}
-      <div className="github-carousel-section reveal">
-         <div className="flex justify-between items-end mb-8">
-            <div>
-              <h2 className="section-title">Open Source Repositories</h2>
-              <p className="text-[var(--text-muted)] mt-2">Latest projects fetched dynamically from GitHub API.</p>
-            </div>
-            <a href="https://github.com/ankushjha-aj" target="_blank" rel="noopener noreferrer" className="view-all-link hidden md:flex">
-              View full profile <ExternalLink size={18} />
-            </a>
-         </div>
+      {/* GitHub Repos — Scrolling Marquee */}
+      <section className="py-8 bg-slate-50/80 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 overflow-hidden w-full">
+        <div className="w-full px-4 mb-4">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white text-center flex items-center justify-center gap-2">
+            <FolderGit2 size={18} className="text-slate-400" /> More from GitHub
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-1">Open source repositories and infrastructure templates</p>
+        </div>
+        <div className="relative w-full overflow-hidden">
+          <div className="flex animate-marquee w-max gap-4">
+            {[...GITHUB_REPOS, ...GITHUB_REPOS].map((repo, i) => (
+              <a key={i} href={repo.url} target="_blank"
+                className="shrink-0 w-64 p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-custom shadow-sm hover:border-primary hover:shadow-md transition-all group">
+                <div className="flex items-center gap-2 mb-2">
+                  <Github size={14} className="text-slate-400 group-hover:text-primary transition-colors" />
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors truncate">{repo.name}</h4>
+                  <ExternalLink size={10} className="ml-auto text-slate-400 shrink-0" />
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">{repo.desc}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
 
-         {!carouselRepos || carouselRepos.length === 0 ? (
-           <div className="api-error-state">
-              <AlertCircle size={32} className="text-secondary mb-4" />
-              <p>GitHub repositories could not be fetched at this time.</p>
-              <a href="https://github.com/ankushjha-aj" target="_blank" rel="noopener noreferrer" className="btn-primary mt-4">Visit GitHub Directly</a>
-           </div>
-         ) : (
-           <div className="carousel-container">
-             <div className="carousel-track">
-               {carouselRepos.map((repo: any) => (
-                 <a 
-                   href={repo.html_url} 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   key={repo.id} 
-                   className="carousel-card block group"
-                 >
-                    <div className="flex justify-between items-start mb-4">
-                       <Code2 size={24} className="text-primary group-hover:text-secondary transition-colors" />
-                       <Github size={20} className="text-[var(--text-muted)] group-hover:text-white transition-colors" />
-                    </div>
-                    <h3 className="font-bold text-lg text-[var(--text-color)] mb-2 truncate" title={repo.name}>
-                       {repo.name}
-                    </h3>
-                    <p className="text-sm text-[var(--text-muted)] line-clamp-3 mb-4 h-[60px]">
-                       {repo.description || "No description provided for this repository."}
-                    </p>
-                    <div className="flex justify-between items-center mt-auto border-t border-[var(--border-color)] pt-3">
-                       <div className="flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-secondary"></span>
-                          <span className="text-xs font-semibold">{repo.language || "Shell"}</span>
-                       </div>
-                       <span className="text-xs text-[var(--text-muted)]">⭐ {repo.stargazers_count}</span>
-                    </div>
-                 </a>
-               ))}
-             </div>
-           </div>
-         )}
-         <a href="https://github.com/ankushjha-aj" target="_blank" rel="noopener noreferrer" className="btn-secondary w-full text-center mt-6 flex justify-center md:hidden">
-            Show More on GitHub
-         </a>
-      </div>
+      {/* GitHub Profile CTA */}
+      <section className="py-8 w-full border-t border-slate-200 dark:border-slate-800">
+        <div className="w-full px-4 text-center">
+          <Link href="https://github.com/ankushjha-aj" target="_blank"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold rounded-custom shadow-lg hover:opacity-90 transition-opacity">
+            <Github size={16} /> View All Repositories <ExternalLink size={12} />
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

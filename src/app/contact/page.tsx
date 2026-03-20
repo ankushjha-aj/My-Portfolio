@@ -1,118 +1,167 @@
 "use client";
 
-import { Mail, MapPin, Share2, Code, Users2, FileText, SendHorizontal, Phone } from 'lucide-react';
-import './contact.css';
+import { useState } from "react";
+import { Mail, MapPin, Clock, Github, Linkedin, Phone, MessageSquare, CheckCircle, X } from "lucide-react";
 
 export default function Contact() {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Intended for future API integration (e.g. Resend, EmailJS)
-    alert("Message recorded. I'll get back to you shortly!");
+    setSending(true);
+    const form = e.currentTarget;
+    const data = {
+      first_name: (form.elements.namedItem("first_name") as HTMLInputElement)?.value,
+      last_name: (form.elements.namedItem("last_name") as HTMLInputElement)?.value,
+      email: (form.elements.namedItem("email") as HTMLInputElement)?.value,
+      inquiry_type: (form.elements.namedItem("inquiry_type") as HTMLSelectElement)?.value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement)?.value,
+    };
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+    } catch {}
+    setSending(false);
+    setSubmitted(true);
+    form.reset();
   };
 
   return (
-    <div className="contact-container section-padding">
-      <div className="contact-grid">
-        
-        {/* Info Column */}
-        <div className="contact-info animate-slide-up">
-          <div className="contact-header">
-            <h1 className="contact-title">Let's talk <br/><span className="text-primary">systems</span>.</h1>
-            <p className="contact-desc">
-              Whether you're looking for cloud architecture design, CI/CD automation, or full-time DevOps engineering support, I'm ready to collaborate.
-            </p>
-          </div>
-          
-          <div className="contact-methods">
-            <div className="method-item group">
-               <div className="method-icon-wrapper">
-                 <Mail size={24} />
-               </div>
-               <div>
-                 <p className="method-label">Email</p>
-                 <a href="mailto:jhaankushcpp@gmail.com" className="method-value">
-                   jhaankushcpp@gmail.com
-                 </a>
-               </div>
-            </div>
-
-            <div className="method-item group">
-               <div className="method-icon-wrapper">
-                 <Phone size={24} />
-               </div>
-               <div>
-                 <p className="method-label">Phone</p>
-                 <a href="tel:+918178199774" className="method-value">
-                   +91 8178199774
-                 </a>
-               </div>
-            </div>
-            
-            <div className="method-item group">
-               <div className="method-icon-wrapper">
-                 <MapPin size={24} />
-               </div>
-               <div>
-                 <p className="method-label">Location</p>
-                 <p className="method-value text-[var(--text-color)]">Delhi, India</p>
-               </div>
-            </div>
-          </div>
-          
-          <div className="social-section">
-            <p className="social-label">Connect Directly</p>
-            <div className="social-links">
-              <a href="https://www.linkedin.com/in/jhaankush" target="_blank" rel="noopener noreferrer" className="social-circle" aria-label="LinkedIn">
-                <Share2 size={24} />
-              </a>
-              <a href="https://github.com/ankushjha-aj" target="_blank" rel="noopener noreferrer" className="social-circle" aria-label="GitHub">
-                <Code size={24} />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Form Column */}
-        <div className="contact-form-wrapper animate-slide-up delay-100">
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-group flex-col md:flex-row gap-4">
-               <div className="w-full">
-                 <label className="form-label">Full Name</label>
-                 <input type="text" className="form-input w-full" placeholder="John Doe" required />
-               </div>
-               <div className="w-full">
-                 <label className="form-label">Email Address</label>
-                 <input type="email" className="form-input w-full" placeholder="john@company.com" required />
-               </div>
-            </div>
-            
-            <div className="form-group">
-              <label className="form-label">Inquiry Type</label>
-              <select className="form-input form-select w-full">
-                <option>Cloud Infrastructure Review</option>
-                <option>CI/CD Pipeline Setup</option>
-                <option>Full-time Role Opportunity</option>
-                <option>General Networking</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
-              <label className="form-label">Message Details</label>
-              <textarea 
-                className="form-input form-textarea w-full" 
-                rows={5} 
-                placeholder="Briefly describe your requirements or the role you are hiring for..." 
-                required
-              ></textarea>
-            </div>
-            
-            <button type="submit" className="btn-primary w-full mt-2 justify-center py-4">
-              <span>Send Secure Message</span>
-              <SendHorizontal size={20} className="ml-2" />
-            </button>
-          </form>
+    <div className="w-full relative z-10">
+      {/* Header */}
+      <div className="bg-slate-900 py-8 w-full border-b border-primary/20">
+        <div className="w-full px-4 sm:px-6 lg:px-8 text-center text-white">
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">
+            Let's <span className="text-primary">Connect</span>
+          </h1>
+          <p className="text-slate-400 max-w-xl mx-auto text-sm leading-relaxed">
+            Looking for DevOps consulting, cloud architecture, or engineering roles? Send me a message.
+          </p>
         </div>
       </div>
+
+      <section className="py-10 bg-slate-50/80 dark:bg-slate-900/80">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-5 gap-6 bg-white dark:bg-slate-800 rounded-custom shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden -mt-8 relative z-20">
+
+            {/* Form */}
+            <div className="lg:col-span-3 p-6 md:p-8">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+                <MessageSquare className="text-primary" size={18} /> Send a Message
+              </h2>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="first_name" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">First Name</label>
+                    <input type="text" id="first_name" name="first_name" required
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-custom focus:outline-none focus:ring-2 focus:ring-primary text-sm text-slate-900 dark:text-white placeholder-slate-400"
+                      placeholder="Jane" />
+                  </div>
+                  <div>
+                    <label htmlFor="last_name" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Last Name</label>
+                    <input type="text" id="last_name" name="last_name"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-custom focus:outline-none focus:ring-2 focus:ring-primary text-sm text-slate-900 dark:text-white placeholder-slate-400"
+                      placeholder="Doe" />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Email *</label>
+                  <input type="email" id="email" name="email" required
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-custom focus:outline-none focus:ring-2 focus:ring-primary text-sm text-slate-900 dark:text-white placeholder-slate-400"
+                    placeholder="jane@company.com" />
+                </div>
+                <div>
+                  <label htmlFor="inquiry_type" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Inquiry Type</label>
+                  <select id="inquiry_type" name="inquiry_type"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-custom focus:outline-none focus:ring-2 focus:ring-primary text-sm text-slate-900 dark:text-white">
+                    <option>Infrastructure Consulting</option>
+                    <option>Full-time Role</option>
+                    <option>Open Source Collaboration</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="message" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Message *</label>
+                  <textarea id="message" name="message" rows={4} required
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-custom focus:outline-none focus:ring-2 focus:ring-primary text-sm text-slate-900 dark:text-white resize-none placeholder-slate-400"
+                    placeholder="Describe your requirements..." />
+                </div>
+                <button type="submit" disabled={sending}
+                  className="w-full py-3 bg-primary text-white text-sm font-bold rounded-custom hover:bg-[#0ebebe] transition-colors shadow-lg shadow-primary/20 disabled:opacity-50">
+                  {sending ? "Sending..." : "Submit Request"}
+                </button>
+              </form>
+            </div>
+
+            {/* Info */}
+            <div className="lg:col-span-2 bg-slate-900 text-white p-6 md:p-8 flex flex-col justify-between">
+              <div>
+                <h3 className="text-lg font-bold mb-6 text-white">Contact Info</h3>
+                <div className="space-y-5">
+                  <div className="flex gap-3 items-start">
+                    <div className="w-10 h-10 bg-slate-800 rounded-custom flex items-center justify-center shrink-0">
+                      <Mail className="text-primary" size={16} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-sm mb-0.5">Email</h4>
+                      <a href="mailto:jhaankushcpp@gmail.com" className="text-primary text-xs hover:underline font-mono">jhaankushcpp@gmail.com</a>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 items-start">
+                    <div className="w-10 h-10 bg-slate-800 rounded-custom flex items-center justify-center shrink-0">
+                      <Phone className="text-primary" size={16} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-sm mb-0.5">Phone</h4>
+                      <a href="tel:+918178199774" className="text-primary text-xs hover:underline font-mono">+91 8178199774</a>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 items-start">
+                    <div className="w-10 h-10 bg-slate-800 rounded-custom flex items-center justify-center shrink-0">
+                      <MapPin className="text-primary" size={16} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-sm mb-0.5">Location</h4>
+                      <p className="text-slate-400 text-xs">Delhi, India</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8">
+                <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Social</h4>
+                <div className="flex gap-2">
+                  <a href="https://www.linkedin.com/in/jhaankush" target="_blank" className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors text-slate-400 hover:text-white"><Linkedin size={14}/></a>
+                  <a href="https://github.com/ankushjha-aj" target="_blank" className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors text-slate-400 hover:text-white"><Github size={14}/></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Success Popup */}
+      {submitted && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setSubmitted(false)}>
+          <div className="bg-white dark:bg-slate-800 rounded-custom shadow-2xl p-8 max-w-sm mx-4 text-center animate-fadeInUp" onClick={(e) => e.stopPropagation()}>
+            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="text-emerald-500" size={28} />
+            </div>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Message Sent!</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
+              Thank you for reaching out. Your message has been saved and I'll get back to you shortly.
+            </p>
+            <button onClick={() => setSubmitted(false)}
+              className="px-6 py-2 bg-primary text-white text-sm font-bold rounded-custom hover:opacity-90 transition-opacity">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import { ThemeProvider } from "@/components/ThemeProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -12,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Ankush Kumar Jha | DevOps Engineer",
+  title: "DevOpsArch | Engineer Portfolio",
   description: "Portfolio of Ankush Kumar Jha, a highly motivated DevOps Engineer with hands-on experience in automation, cloud infrastructure optimization, and security implementation.",
 };
 
@@ -23,17 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
-          <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-            <div className="layout-container flex h-full grow flex-col">
-              <Navbar />
-              <main className="flex-1">
-                {children}
-              </main>
-              <Footer />
-            </div>
-          </div>
+      <body className={`${inter.className} min-h-screen flex flex-col antialiased transition-colors duration-300`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <Navbar />
+          <main className="flex-1 w-full flex flex-col items-center">
+            {children}
+          </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
